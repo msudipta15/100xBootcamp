@@ -41,6 +41,12 @@ function App() {
     }
   };
 
+  const restart = () => {
+    setcurrent(0);
+    setscore(0);
+    setshowresult(false);
+  };
+
   return (
     <div>
       <div className="p-2 text-center">
@@ -55,7 +61,10 @@ function App() {
                 {score}/{questions.length}
               </div>
               <div>
-                <button className="px-4 py-2 bg-blue-500 rounded-2xl text-white">
+                <button
+                  onClick={() => restart()}
+                  className="px-4 py-2 bg-blue-500 rounded-2xl text-white"
+                >
                   Restart
                 </button>
               </div>
@@ -63,27 +72,21 @@ function App() {
           ) : (
             <div className="">
               <div className="bg-blue-200 p-2 mb-2 text-lg font-medium">
-                <span className="font-bold">Q{current}: </span>
-                <span>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Asperiores voluptatibus, ea soluta quisquam eveniet qui
-                  numquam explicabo officia illum blanditiis iste quia animi
-                  magnam, sint atque tempore necessitatibus corrupti quidem.
-                </span>
+                <span className="font-bold">Q{current + 1}: </span>
+                <span>{questions[current].question}</span>
               </div>
               <div className="flex flex-col gap-2">
-                <div className="w-full bg-yellow-300 p-2">
-                  <button>option 1</button>
-                </div>
-                <div className="w-full bg-yellow-300 p-2">
-                  <button>option 1</button>
-                </div>
-                <div className="w-full bg-yellow-300 p-2">
-                  <button>option 1</button>
-                </div>
-                <div className="w-full bg-yellow-300 p-2">
-                  <button>option 1</button>
-                </div>
+                {questions[current].options.map((o, index) => (
+                  <div className="w-full bg-yellow-300 p-2">
+                    <button
+                      key={index}
+                      onClick={() => handleanswer(index)}
+                      className="w-full "
+                    >
+                      {o}
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           )}
