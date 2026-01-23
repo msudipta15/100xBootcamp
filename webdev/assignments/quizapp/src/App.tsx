@@ -29,7 +29,7 @@ function App() {
   const [score, setscore] = useState(0);
   const [showresult, setshowresult] = useState(false);
 
-  const handleanswer = (index) => {
+  const handleanswer = (index: number) => {
     if (index == questions[current].answer) {
       setscore((s) => s + 1);
     }
