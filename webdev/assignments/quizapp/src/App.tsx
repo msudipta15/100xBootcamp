@@ -49,21 +49,21 @@ function App() {
 
   return (
     <div>
-      <div className="p-2 text-center">
+      <div className="p-2 text-center bg-slate-800 text-white">
         <h1 className="text-3xl font-medium">Quiz Master V1</h1>
       </div>
-      <div className="w-full h-screen bg-amber-50 flex flex-col justify-center items-center px-10 sm:px-40">
-        <div className="bg-amber-200 p-5 w-full h-1/2  ">
+      <div className="w-full h-screen bg-slate-700 text-white flex flex-col justify-center items-center px-10 sm:px-40">
+        <div className=" p-5 w-full h-1/2  flex justify-center items-center  ">
           {showresult ? (
-            <div className=" flex flex-col gap-4 h-full justify-center items-center ">
-              <div className="text-3xl font-bold">Your Score</div>
-              <div className="text-5xl">
+            <div className=" flex flex-col gap-8 h-full justify-center items-center ">
+              <div className="text-3xl ">Your Score</div>
+              <div className="text-5xl font-bold border p-4 rounded-4xl px-8">
                 {score}/{questions.length}
               </div>
               <div>
                 <button
                   onClick={() => restart()}
-                  className="px-4 py-2 bg-blue-500 rounded-2xl text-white"
+                  className="px-4 py-2 bg-blue-500 rounded-2xl text-white cursor-pointer hover:bg-blue-600"
                 >
                   Restart
                 </button>
@@ -71,20 +71,20 @@ function App() {
             </div>
           ) : (
             <div className="">
-              <div className="bg-blue-200 p-2 mb-2 text-lg font-medium">
+              <div className=" p-5 rounded-lg mb-8 text-xl font-medium bg-slate-800">
                 <span className="font-bold">Q{current + 1}: </span>
                 <span>{questions[current].question}</span>
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-4">
                 {questions[current].options.map((o, index) => (
-                  <div className="w-full bg-yellow-300 p-2">
-                    <button
-                      key={index}
-                      onClick={() => handleanswer(index)}
-                      className="w-full "
-                    >
-                      {o}
-                    </button>
+                  <div
+                    key={index}
+                    className="w-full  p-2 border rounded-2xl hover:border-2 cursor-pointer"
+                    onClick={() => handleanswer(index)}
+                  >
+                    <span>
+                      {index + 1}: {o}
+                    </span>
                   </div>
                 ))}
               </div>
