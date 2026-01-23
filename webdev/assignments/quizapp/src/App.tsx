@@ -8,7 +8,7 @@ function App() {
       </div>
       <div className="w-full h-screen bg-amber-50 flex flex-col justify-center items-center px-10 sm:px-40">
         <div className="bg-amber-200 p-5 w-full h-1/2 ">
-          <div className="bg-blue-200 p-2">
+          <div className="bg-blue-200 p-2 mb-2 text-lg font-medium">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores
             voluptatibus, ea soluta quisquam eveniet qui numquam explicabo
             officia illum blanditiis iste quia animi magnam, sint atque tempore
@@ -18,10 +18,13 @@ function App() {
             <div className="w-full bg-yellow-300 p-2">
               <button>option 1</button>
             </div>
-            <div>
+            <div className="w-full bg-yellow-300 p-2">
               <button>option 1</button>
             </div>
-            <div>
+            <div className="w-full bg-yellow-300 p-2">
+              <button>option 1</button>
+            </div>
+            <div className="w-full bg-yellow-300 p-2">
               <button>option 1</button>
             </div>
           </div>
