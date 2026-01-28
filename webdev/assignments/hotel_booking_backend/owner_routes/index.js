@@ -6,6 +6,8 @@ dotenv.config();
 
 const app = express();
 
-app.use(Router());
+const owner_router = Router();
 
-app.listen(3000);
+owner_router.post("/signup", async function (req, res) {});
+
+module.exports = owner_router;
