@@ -44,3 +44,7 @@ roomSchema.index(
   },
   { unique: true },
 );
+
+const bookingSchema = new Schema({});
+
+const reviewSchema = new Schema({});
