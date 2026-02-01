@@ -45,6 +45,21 @@ roomSchema.index(
   { unique: true },
 );
 
-const bookingSchema = new Schema({});
+const bookingSchema = new Schema({
+  user_id: { type: mongoose.Types.ObjectId, required: true, ref: "users" },
+  room_id: { type: mongoose.Types.ObjectId, required: true, ref: "rooms" },
+  hotel_id: { type: mongoose.Types.ObjectId, required: true, ref: "hotels" },
+  check_in_date: { type: Date, required: true },
+  check_out_date: { type: Date, required: true },
+  guests: { type: Number, required: true },
+  totalprice: {
+    type: Number,
+    set: (v: number) => Math.floor(v * 10) / 10,
+    required: true,
+  },
+  status: { enum: ["confirmed", "cancelled"], default: "confirmed" },
+  booking_date: { type: Date, default: Date.now },
+  cancelled_at: { type: Date },
+});
 
 const reviewSchema = new Schema({});
