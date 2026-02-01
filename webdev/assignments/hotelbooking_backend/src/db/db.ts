@@ -62,4 +62,23 @@ const bookingSchema = new Schema({
   cancelled_at: { type: Date },
 });
 
-const reviewSchema = new Schema({});
+const reviewSchema = new Schema({
+  user_id: { type: mongoose.Types.ObjectId, required: true, ref: "users" },
+  hotel_id: { type: mongoose.Types.ObjectId, required: true, ref: "hotels" },
+  booking_id: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: "bookings",
+  },
+  rating: { type: Number, min: 1, max: 5, required: true },
+  comment: { type: String },
+  created_at: { type: Date, default: Date.now },
+});
+
+reviewSchema.index(
+  {
+    user_id: 1,
+    booking_id: 1,
+  },
+  { unique: true },
+);
