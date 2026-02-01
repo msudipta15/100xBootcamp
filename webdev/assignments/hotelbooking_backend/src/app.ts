@@ -1,6 +1,7 @@
-import express, { Router } from "express";
+import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import { z } from "zod";
 
 dotenv.config();
 
@@ -8,7 +9,6 @@ const app = express();
 const port = process.env.port || 3000;
 
 app.use(express.json());
-app.use(Router());
 
 async function main() {
   try {
@@ -27,3 +27,19 @@ async function main() {
 }
 
 main();
+
+app.post("/api/auth/signup", async function (req, res) {
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+  const phone = req.body.phone;
+  const role = req.body.role;
+
+  const authBody = z.object({
+    name: z.string().min(1).max(50),
+    email: z.email("Not a valid email !"),
+    password: z.string().min(4),
+    phone: z.string().max(50),
+    role: z.enum(["owner", "customer"]),
+  });
+});
