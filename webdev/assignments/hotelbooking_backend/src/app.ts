@@ -42,4 +42,17 @@ app.post("/api/auth/signup", async function (req, res) {
     phone: z.string().max(50),
     role: z.enum(["owner", "customer"]),
   });
+
+  const validinput = authBody.safeParse({ name, email, password, phone, role });
+
+  if (!validinput.success) {
+    console.log(validinput.error);
+    res
+      .status(400)
+      .json({ success: false, data: null, error: "Invalid Request !" });
+    return;
+  }
+
+  try {
+  } catch (error) {}
 });
