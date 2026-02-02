@@ -86,5 +86,11 @@ app.post("/api/auth/signup", async function (req, res) {
       },
       error: null,
     });
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      error: "Something went wrong !",
+    });
+  }
 });
