@@ -143,7 +143,7 @@ app.post("/api/auth/login", async function (req, res) {
       });
     }
 
-    const token = jwt.sign(user._id, jwt_key);
+    const token = jwt.sign(user._id.toString(), jwt_key);
 
     res.status(200).json({
       success: true,
@@ -159,6 +159,7 @@ app.post("/api/auth/login", async function (req, res) {
       error: null,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       data: null,

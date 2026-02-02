@@ -4,9 +4,11 @@ import dotenv from "dotenv";
 import { z } from "zod";
 import { userModel } from "./db/db.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 dotenv.config();
 const app = express();
 const port = process.env.port || 3000;
+const jwt_key = process.env.jwt_key || "uiwiu&^^%^^&";
 app.use(express.json());
 async function main() {
     try {
@@ -35,7 +37,10 @@ app.post("/api/auth/signup", async function (req, res) {
     const authBody = z.object({
         name: z.string().min(1).max(50),
         email: z.email("Not a valid email !"),
-        password: z.string().min(4),
+        password: z
+            .string()
+            .min(4, "Password needs to be minimum 4 characters long !")
+            .max(25, "Password is too long , it should be less than 25 characters"),
         phone: z.string().max(50),
         role: z.enum(["owner", "customer"]),
     });
@@ -78,6 +83,65 @@ app.post("/api/auth/signup", async function (req, res) {
     }
     catch (error) {
         return res.status(500).json({
+            success: false,
+            data: null,
+            error: "Something went wrong !",
+        });
+    }
+});
+app.post("/api/auth/login", async function (req, res) {
+    const email = req.body.email;
+    const password = req.body.password;
+    const loginBody = z.object({
+        email: z.email("Not a valid email !"),
+        password: z
+            .string()
+            .min(4, "Password needs to be minimum 4 characters long !")
+            .max(25, "Password is too long , it should be less than 25 characters"),
+    });
+    const validinput = loginBody.safeParse({ email, password });
+    if (!validinput.success) {
+        return res.status(400).json({
+            success: false,
+            data: null,
+            error: "INVALID_REQUEST",
+        });
+    }
+    try {
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "INVALID_CREDENTIALS",
+            });
+        }
+        const valid_password = await bcrypt.compare(password, user?.password);
+        if (!valid_password) {
+            return res.status(400).json({
+                success: false,
+                data: null,
+                error: "INVALID_CREDENTIALS",
+            });
+        }
+        const token = jwt.sign(user._id.toString(), jwt_key);
+        res.status(200).json({
+            success: true,
+            data: {
+                token: token,
+                user: {
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role,
+                },
+            },
+            error: null,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
             success: false,
             data: null,
             error: "Something went wrong !",
