@@ -4,7 +4,7 @@ const userSchema = new Schema({
   name: { type: String, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  role: { enum: ["owner", "customer"], required: true },
+  role: { type: String, enum: ["owner", "customer"], required: true },
   phone: { type: Number },
   created_at: { type: Date, default: Date.now },
 });
@@ -57,7 +57,11 @@ const bookingSchema = new Schema({
     set: (v: number) => Math.floor(v * 10) / 10,
     required: true,
   },
-  status: { enum: ["confirmed", "cancelled"], default: "confirmed" },
+  status: {
+    type: String,
+    enum: ["confirmed", "cancelled"],
+    default: "confirmed",
+  },
   booking_date: { type: Date, default: Date.now },
   cancelled_at: { type: Date },
 });
