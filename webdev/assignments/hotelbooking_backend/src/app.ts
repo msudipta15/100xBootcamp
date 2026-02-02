@@ -67,12 +67,24 @@ app.post("/api/auth/signup", async function (req, res) {
 
     const hashed_password = await bcrypt.hash(password, 10);
 
-    const signup = await userModel.create({
+    const user = await userModel.create({
       name,
       email,
       password: hashed_password,
       role,
       phone,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        phone: user.phone,
+      },
+      error: null,
     });
   } catch (error) {}
 });
