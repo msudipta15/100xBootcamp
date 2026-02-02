@@ -2,6 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { z } from "zod";
+import { userModel } from "./db/db.js";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -54,5 +56,23 @@ app.post("/api/auth/signup", async function (req, res) {
   }
 
   try {
+    const existing_email = await userModel.findOne({ email });
+    if (existing_email) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        error: "EMAIL_ALREADY_EXISTS",
+      });
+    }
+
+    const hashed_password = await bcrypt.hash(password, 10);
+
+    const signup = await userModel.create({
+      name,
+      email,
+      password: hashed_password,
+      role,
+      phone,
+    });
   } catch (error) {}
 });
