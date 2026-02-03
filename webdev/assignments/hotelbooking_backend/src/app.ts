@@ -172,7 +172,7 @@ app.post("/api/auth/login", async function (req, res) {
   }
 });
 
-app.post("api/hotels", auth, async function (req: extendedRequest, res) {
+app.post("/api/hotels", auth, async function (req: extendedRequest, res) {
   const name = req.body.name;
   const description = req.body.description;
   const city = req.body.city;

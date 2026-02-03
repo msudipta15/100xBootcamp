@@ -19,7 +19,7 @@ const hotelSchema = new Schema({
   rating: {
     type: Number,
     default: 0.0,
-    min: 1,
+    min: 0,
     max: 5,
     set: (v: number) => Math.round(v * 10) / 10,
   },
