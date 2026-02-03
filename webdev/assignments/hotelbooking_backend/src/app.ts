@@ -143,7 +143,7 @@ app.post("/api/auth/login", async function (req, res) {
       });
     }
 
-    const token = jwt.sign(user._id.toString(), jwt_key);
+    const token = jwt.sign({ id: user._id, role: user.role }, jwt_key);
 
     res.status(200).json({
       success: true,
