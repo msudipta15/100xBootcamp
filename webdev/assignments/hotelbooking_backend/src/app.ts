@@ -1,10 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { z } from "zod";
-import { userModel } from "./db/db.js";
+import { string, z } from "zod";
+import { hotelModel, userModel } from "./db/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { auth, type extendedRequest } from "./middlewares/authmiddleware.js";
 
 dotenv.config();
 
@@ -169,4 +170,40 @@ app.post("/api/auth/login", async function (req, res) {
       error: "Something went wrong !",
     });
   }
+});
+
+app.post("api/hotels", auth, async function (req: extendedRequest, res) {
+  const name = req.body.name;
+  const description = req.body.description;
+  const city = req.body.city;
+  const country = req.body.country;
+  const amenities = req.body.amenities;
+
+  const id = req.id;
+
+  const inputBody = z.object({
+    name: z.string().min(1).max(100),
+    description: z.string().max(1000),
+    city: z.string().max(50),
+    country: z.string().max(50),
+    amenities: z.array(z.string()),
+  });
+
+  const valid_input = inputBody.safeParse({
+    name,
+    description,
+    city,
+    country,
+    amenities,
+  });
+
+  if (!valid_input.success) {
+    return res.status(400).json({
+      success: false,
+      data: null,
+      error: "INVALID_REQUEST",
+    });
+  }
+
+  const createHotel = await hotelModel.create();
 });

@@ -6,7 +6,7 @@ import express, {
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import "dotenv/config";
 
-interface extendedRequest extends Request {
+export interface extendedRequest extends Request {
   id?: string;
   role?: string;
 }
