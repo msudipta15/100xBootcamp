@@ -113,6 +113,7 @@ export declare const hotelModel: mongoose.Model<{
     created_at: NativeDate;
     description: string;
     city: string;
+    country: string;
     amenities: any[];
     rating: number;
     total_reviews: number;
@@ -124,6 +125,7 @@ export declare const hotelModel: mongoose.Model<{
     created_at: NativeDate;
     description: string;
     city: string;
+    country: string;
     amenities: any[];
     rating: number;
     total_reviews: number;
@@ -135,6 +137,7 @@ export declare const hotelModel: mongoose.Model<{
     created_at: NativeDate;
     description: string;
     city: string;
+    country: string;
     amenities: any[];
     rating: number;
     total_reviews: number;
@@ -150,6 +153,7 @@ export declare const hotelModel: mongoose.Model<{
     created_at: NativeDate;
     description: string;
     city: string;
+    country: string;
     amenities: any[];
     rating: number;
     total_reviews: number;
@@ -159,6 +163,7 @@ export declare const hotelModel: mongoose.Model<{
     created_at: NativeDate;
     description: string;
     city: string;
+    country: string;
     amenities: any[];
     rating: number;
     total_reviews: number;
@@ -170,6 +175,7 @@ export declare const hotelModel: mongoose.Model<{
     created_at: NativeDate;
     description: string;
     city: string;
+    country: string;
     amenities: any[];
     rating: number;
     total_reviews: number;
@@ -188,6 +194,7 @@ export declare const hotelModel: mongoose.Model<{
         created_at: NativeDate;
         description: string;
         city: string;
+        country: string;
         amenities: any[];
         rating: number;
         total_reviews: number;
@@ -199,6 +206,7 @@ export declare const hotelModel: mongoose.Model<{
         created_at: NativeDate;
         description: string;
         city: string;
+        country: string;
         amenities: any[];
         rating: number;
         total_reviews: number;
@@ -215,6 +223,7 @@ export declare const hotelModel: mongoose.Model<{
     created_at: NativeDate;
     description: string;
     city: string;
+    country: string;
     amenities: any[];
     rating: number;
     total_reviews: number;
@@ -228,6 +237,7 @@ export declare const hotelModel: mongoose.Model<{
     created_at: NativeDate;
     description: string;
     city: string;
+    country: string;
     amenities: any[];
     rating: number;
     total_reviews: number;

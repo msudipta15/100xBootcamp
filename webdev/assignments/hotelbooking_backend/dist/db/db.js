@@ -12,6 +12,7 @@ const hotelSchema = new Schema({
     owner_id: { type: mongoose.Types.ObjectId, ref: "users" },
     description: { type: String, required: true },
     city: { type: String, required: true },
+    country: { type: String, required: true },
     amenities: { type: [], default: [] },
     rating: {
         type: Number,

@@ -189,21 +189,55 @@ app.post("api/hotels", auth, async function (req: extendedRequest, res) {
     amenities: z.array(z.string()),
   });
 
-  const valid_input = inputBody.safeParse({
-    name,
-    description,
-    city,
-    country,
-    amenities,
-  });
+  try {
+    const valid_input = inputBody.safeParse({
+      name,
+      description,
+      city,
+      country,
+      amenities,
+    });
 
-  if (!valid_input.success) {
-    return res.status(400).json({
+    if (!valid_input.success) {
+      return res.status(400).json({
+        success: false,
+        data: null,
+        error: "INVALID_REQUEST",
+      });
+    }
+
+    const owner_id = new mongoose.Types.ObjectId(id);
+
+    const createHotel = await hotelModel.create({
+      owner_id,
+      name,
+      description,
+      city,
+      country,
+      amenities,
+    });
+
+    res.status(201).json({
+      success: true,
+      data: {
+        id: createHotel._id,
+        ownerId: createHotel.owner_id,
+        name: createHotel.name,
+        description: createHotel.description,
+        city: createHotel.city,
+        country: createHotel.country,
+        amenities: createHotel.amenities,
+        rating: createHotel.rating,
+        totalReviews: createHotel.total_reviews,
+      },
+      error: null,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
       success: false,
       data: null,
-      error: "INVALID_REQUEST",
+      error: "Something went wrong !",
     });
   }
-
-  const createHotel = await hotelModel.create();
 });

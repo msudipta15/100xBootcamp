@@ -1,10 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { z } from "zod";
-import { userModel } from "./db/db.js";
+import { string, z } from "zod";
+import { hotelModel, userModel } from "./db/db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { auth } from "./middlewares/authmiddleware.js";
 dotenv.config();
 const app = express();
 const port = process.env.port || 3000;
@@ -124,7 +125,7 @@ app.post("/api/auth/login", async function (req, res) {
                 error: "INVALID_CREDENTIALS",
             });
         }
-        const token = jwt.sign({ id: user._id, role: user.role }, jwt_key);
+        const token = jwt.sign({ id: user._id.toString(), role: user.role }, jwt_key);
         res.status(200).json({
             success: true,
             data: {
@@ -147,5 +148,42 @@ app.post("/api/auth/login", async function (req, res) {
             error: "Something went wrong !",
         });
     }
+});
+app.post("api/hotels", auth, async function (req, res) {
+    const name = req.body.name;
+    const description = req.body.description;
+    const city = req.body.city;
+    const country = req.body.country;
+    const amenities = req.body.amenities;
+    const id = req.id;
+    const inputBody = z.object({
+        name: z.string().min(1).max(100),
+        description: z.string().max(1000),
+        city: z.string().max(50),
+        country: z.string().max(50),
+        amenities: z.array(z.string()),
+    });
+    const valid_input = inputBody.safeParse({
+        name,
+        description,
+        city,
+        country,
+        amenities,
+    });
+    if (!valid_input.success) {
+        return res.status(400).json({
+            success: false,
+            data: null,
+            error: "INVALID_REQUEST",
+        });
+    }
+    const owner_id = new mongoose.Types.ObjectId(id);
+    const createHotel = await hotelModel.create({
+        owner_id,
+        name,
+        description,
+        city,
+        amenities,
+    });
 });
 //# sourceMappingURL=app.js.map
